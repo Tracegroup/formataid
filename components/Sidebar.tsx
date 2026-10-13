@@ -30,10 +30,9 @@ export default function Sidebar({ user }: { user: { name: string; email: string;
   const items = NAV.filter((n) => !n.roles || n.roles.includes(user.role));
 
   async function logout() {
-    await api("/api/auth/logout", { method: "POST" }).catch(() => {});
+    const res = await api<{ redirect?: string }>("/api/auth/logout", { method: "POST" }).catch(() => null);
     // Full reload to drop all client state after sign-out.
-    // eslint-disable-next-line @next/next/no-location-assign-relative-destination
-    window.location.href = "/login";
+    window.location.href = res?.redirect ?? "/login";
   }
 
   const isActive = (href: string) =>

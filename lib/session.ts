@@ -2,7 +2,8 @@
 import { SignJWT, jwtVerify } from "jose";
 
 export const SESSION_COOKIE = "fa_session";
-export const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
+// Shorter when sign-in comes from the TCG Portal, so access removed there lapses within a day.
+export const SESSION_TTL_SECONDS = process.env.SSO_PORTAL_URL ? 60 * 60 * 12 : 60 * 60 * 24 * 7;
 
 export type Role = "super_admin" | "admin" | "user";
 
